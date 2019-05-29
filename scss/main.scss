@@ -1,0 +1,123 @@
+@import 'variables';
+@import 'flexLayouts';
+@import 'nav';
+@import 'details';
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  border: $devBorder solid blue;
+  background-color: $background;
+  overflow: hidden;
+  @include flexRowCenter();
+}
+
+
+.centerCol {
+  width: 90vw;
+  height: 100vh;
+  @include flexColumnCenter();
+  border: $devBorder solid lime;
+}
+
+.top {
+  width: 90vw;
+  height: 100%;
+  @include flexColumnCenter();
+  border: $devBorder solid red;
+}
+
+
+.timeFrame {
+  width: $timeFrameWidth;
+  height: $timeFrameHeight;
+  border: $devBorder solid yellow;
+  position: relative;
+  .timeFrames {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+  }
+  .overlay {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+  }
+}
+
+.turnOff {
+  display: none;
+}
+
+.bottom {
+  padding-bottom: 2vh;
+  max-width: 600px;
+  @include flexColumnCenter();
+  border: $devBorder solid green;
+  color: $fontColor;
+  font-family: 'Montserrat', monospace;
+
+  .description {
+    border: $devBorder solid pink;
+    font-size: $fontSizeTimeLabel;
+    text-align: justify;
+    .descriptionHeader {
+
+      border: $devBorder solid pink;
+      border-bottom: 1px solid $fontColor;
+      padding-bottom: .25em;
+    }
+    .descriptionText {
+      padding-top: .25em;
+
+      border: $devBorder solid pink;
+    }
+  }
+
+
+  .controls {
+    @include flexRowCenter();
+    padding-bottom: 4vh;
+    font-family: 'Inconsolata', monospace;
+    color: $fontColor;
+
+    .knobs {
+      border: $devBorder solid orange;
+      padding-left: $knobPadding;
+      padding-right: $knobPadding;
+    }
+    .correctTime {
+      border: $devBorder solid orange;
+      text-align: center;
+      .time {
+        border: $devBorder solid pink;
+        font-size: $fontSizeTime;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        .timeHours, .timeMinutes, .timeColon {
+          border: $devBorder solid blue;
+        }
+        .timeColon {
+          padding-left: -5px;
+          padding-right: -5px;
+        }
+        .timeLabel {
+          border: $devBorder solid pink;
+          font-size: $fontSizeTimeLabel;
+        }
+        .colorBackground {
+          color: $background;
+        }
+      }
+    }
+  }
+}

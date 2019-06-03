@@ -1,6 +1,3 @@
-$imageWidth: 940px;
-$imageHeight: 550px;
-
 
 .detailsBody {
   @include flexColumnCenter();
@@ -15,8 +12,8 @@ $imageHeight: 550px;
     border: $devBorder solid green;
 }
 .explainWrapper {
-  width: $imageWidth;
-  height: $imageHeight;
+  width: $timeFrameWidth;
+  height: $timeFrameHeight;
   border: $devBorder solid cyan;
   text-align: center;
   position: relative;

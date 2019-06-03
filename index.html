@@ -11,41 +11,51 @@
     <script type="text/javascript" src="scripts/main.js"></script>
   </head>
   <body>
-    <div class='leftCol'>
-      <a href='details.html'>
-        <img class='navArrow' src='./images/arrowGrey100.png' alt='navigate back button'>
-      </a>
-    </div>
-    <div class='centerCol'>
-      <section class='top'>
-        <div class='timeFrame'>
-          <div class='clock'><img src='./images/timeFrame_background.png'></div>
-          <div class='timeFrames frame01'><img src='./images/timeFrame_01.png'></div>
-          <div class='timeFrames frame02'><img src='./images/timeFrame_02.png'></div>
-          <div class='timeFrames frame03'><img src='./images/timeFrame_03.png'></div>
-          <div class='timeFrames frame04'><img src='./images/timeFrame_04.png'></div>
-          <div class='timeFrames frame05'><img src='./images/timeFrame_05.png'></div>
-          <div class='timeFrames frame06'><img src='./images/timeFrame_06.png'></div>
-          <div class='timeFrames frame07'><img src='./images/timeFrame_07.png'></div>
-          <div class='timeFrames frame08'><img src='./images/timeFrame_08.png'></div>
-          <div class='timeFrames frame09'><img src='./images/timeFrame_09.png'></div>
-          <div class='timeFrames frame10'><img src='./images/timeFrame_10.png'></div>
-          <div class='timeFrames frame11'><img src='./images/timeFrame_11.png'></div>
-          <div class='timeFrames frame12'><img src='./images/timeFrame_12.png'></div>
-          <div class='overlay'><img src='./images/timeFrame_overlay.png'></div>
+    <div id='screenContainer'>
+      <nav>
+        <div class='leftSide'>
+          <a href='../code.html'><img class='navIcon code' src='./images/nav/navCode.png'></a>
+          <a href='../design.html'><img class='navIcon design' src='./images/nav/navDesign.png'></a>
+          <a href='../electronics.html'><img class='navIcon electronics' src='./images/nav/navElectronics.png'></a>
         </div>
-      </section>
-      <section class='bottom'>
-        <div class='description'>
-          <div class='descriptionHeader'>Time Frame</div>
-          <div class='descriptionText'>Generates random patterns that represent the current time.<p>Physical version programmed on a PIC microcontroller</p></div>
+        <div class='rightSide'>
+          <a href='../orjon.html'><img class='navIcon face' src='./images/nav/navFace.png'></a>
         </div>
-      </section>
+        <div class='navText'></div>
+      </nav>
+
+      <div id='content'>
+        <section class='top'>
+          <div class='timeFrame'>
+            <div class='clock'><img src='./images/timeFrame_background.png'></div>
+            <div class='timeFrames frame01'><img src='./images/timeFrame_01.png'></div>
+            <div class='timeFrames frame02'><img src='./images/timeFrame_02.png'></div>
+            <div class='timeFrames frame03'><img src='./images/timeFrame_03.png'></div>
+            <div class='timeFrames frame04'><img src='./images/timeFrame_04.png'></div>
+            <div class='timeFrames frame05'><img src='./images/timeFrame_05.png'></div>
+            <div class='timeFrames frame06'><img src='./images/timeFrame_06.png'></div>
+            <div class='timeFrames frame07'><img src='./images/timeFrame_07.png'></div>
+            <div class='timeFrames frame08'><img src='./images/timeFrame_08.png'></div>
+            <div class='timeFrames frame09'><img src='./images/timeFrame_09.png'></div>
+            <div class='timeFrames frame10'><img src='./images/timeFrame_10.png'></div>
+            <div class='timeFrames frame11'><img src='./images/timeFrame_11.png'></div>
+            <div class='timeFrames frame12'><img src='./images/timeFrame_12.png'></div>
+            <div class='overlay'><img src='./images/timeFrame_overlay.png'></div>
+          </div>
+        </section>
+        <section class='bottom'>
+          <div class='description'>
+            <div class='descriptionHeader'>Time Frame</div>
+            <div class='descriptionText'>Generates random patterns that represent the current time.<p>Physical version programmed on a PIC microcontroller</p></div>
+          </div>
+        </section>
+      </div>
     </div>
-    <div class='rightCol'>
-      <a href='details.html'>
-        <img class='navArrow' src='./images/arrowGrey100.png' alt='navigate back button'>
-      </a>
+
+    <div class='navArrows'>
+      <a href='./details.html'><img class='navArrow left' src='./images/nav/navArrowLeft.png'></a>
+      <a href='./details.html'><img class='navArrow right' src='./images/nav/navArrowRight.png'></a>
     </div>
+
   </body>
 </html>

@@ -1,4 +1,12 @@
-$devBorder: 0px;
+$devBorder: 1px;
+
+$mediaWidth1: 700px;
+$mediaWidth2: 1100px;
+$mediaWidth3: 1200px;
+
+$mediaHeight1: 500px;
+$mediaHeight2: 900px;
+$mediaHeight3: 1200px;
 
 $background: white;
 
@@ -10,8 +18,6 @@ $fontSizeTimeLabel: 17px;
 $timeFrameWidth: 770px;
 $timeFrameHeight: 550px;
 
-
-
 $colorNavBackground: white;
 $colorHello: #EEE;
 
@@ -20,7 +26,15 @@ $navPaddingTouchLR: 5px;
 
 $navIconWidth: 35px;
 $navIconHeight: 29px;
+$navIconWidthSmall: 28px;
+$navIconHeightSmall: 23px;
+$navIconPadding: 15px;
+
 $navIconCircle: 39px;
+$navIconCircleSmall: 29px;
 
 $navPaddingTB: 5px;
 $navPaddingLR: 5px;
+
+$fontSizeNavSmall: 17px;
+$fontSizeNav: 25px;

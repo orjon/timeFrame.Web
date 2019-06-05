@@ -8,6 +8,7 @@
   padding: 0px;
   box-sizing: border-box;
   user-select: none;
+  font-family: 'Montserrat', sans-serif;
 }
 
 body {
@@ -48,14 +49,20 @@ body {
 .timeFrame {
   width: $timeFrameWidth;
   height: $timeFrameHeight;
+  max-height: 95%;
+  max-width: 95%;
   border: $devBorder solid yellow;
   position: relative;
   .timeFrames {
+    height: 100%;
+    width: 100%;
     position: absolute;
     left: 0px;
     top: 0px;
   }
   .overlay {
+    height: 100%;
+    width: 100%;
     position: absolute;
     left: 0px;
     top: 0px;

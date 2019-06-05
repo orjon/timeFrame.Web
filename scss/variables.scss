@@ -1,4 +1,4 @@
-$devBorder: 1px;
+$devBorder: 0px;
 
 $mediaWidth1: 700px;
 $mediaWidth2: 1100px;
@@ -9,6 +9,7 @@ $mediaHeight2: 900px;
 $mediaHeight3: 1200px;
 
 $background: white;
+$colorBackground: $background;
 
 $fontColor: black;
 $fontSizeTimeLabel: 17px;
@@ -38,3 +39,22 @@ $navPaddingLR: 5px;
 
 $fontSizeNavSmall: 17px;
 $fontSizeNav: 25px;
+
+
+$contentPaddingSide: 20px;
+
+$textFooter: #ccc;
+$textNormal: black;
+$textBright: #fff;
+$textDim: #999;
+$textDimmer: #333;
+
+$fontScreenReference: 73vh;
+$fontSize: ($fontScreenReference/45);
+$fontWeight: 300;
+$fontSizeNormal: 1em;
+$fontSizeSmall: .9em;
+$fontSizeNavSmall: 17px;
+$fontSizeNav: 25px;
+
+// $navArrowPadding: 0;

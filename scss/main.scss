@@ -54,14 +54,6 @@ body {
   border: $devBorder solid yellow;
   position: relative;
   img {
-    // max-width: 100%;
-    // max-height: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .overlay {
     max-width: 100%;
     max-height: 100%;
     position: absolute;
@@ -69,19 +61,20 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+  .hidden {
+    display: none;
+  }
 }
+
+
+
+
+
 
 .turnOff {
   display: none;
 }
-
-
-
-
-
-
-
-
 
 
 body::-webkit-scrollbar {

@@ -60,7 +60,7 @@ nav {
     nav .navText {
       padding-left: 15px;
       font-size: 25px; }
-    nav .aboutMe {
+    nav .me {
       text-align: right; } }
 
 .navArrows .navArrow {
@@ -204,17 +204,14 @@ body {
   border: 0px solid yellow;
   position: relative; }
   .timeFrame img, .center img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); }
-  .timeFrame .overlay, .center .overlay {
     max-width: 100%;
     max-height: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); }
+  .timeFrame .hidden, .center .hidden {
+    display: none; }
 
 .turnOff {
   display: none; }

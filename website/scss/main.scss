@@ -25,18 +25,15 @@ body {
     width: 100%;
     height: 100%;
     @include flexColumnCenter;
-
     nav {
       border: $devBorder solid blue;
     }
-
     #content {
       width: 100%;
       height: 100%;
       @include flexColumnCenter();
       border: $devBorder solid blue;
     }
-
 }
 
 .top {
@@ -45,7 +42,6 @@ body {
   @include flexColumnCenter();
   border: $devBorder solid red;
 }
-
 
 
 .timeFrame, .center{
@@ -66,11 +62,6 @@ body {
     display: none;
   }
 }
-
-
-
-
-
 
 .turnOff {
   display: none;

@@ -1,0 +1,456 @@
+'****************************************************************
+'*  Name    : UNTITLED.BAS                                      *
+'*  Author  : [select VIEW...EDITOR OPTIONS]                    *
+'*  Notice  : Copyright (c) 2009 [select VIEW...EDITOR OPTIONS] *
+'*          : All Rights Reserved                               *
+'*  Date    : 29-04-2009                                        *
+'*BtnSet  Version : 1.0                                               *
+'*  Notes   :                                                   *
+'*  ButtonInc        :                                                   *
+'****************************************************************
+ButtonSet var portb.2     ' low is pressed
+ButtonInc var portb.3     ' low is pressed
+
+
+IncLight var portb.7
+
+led00 var porta.0
+led01 var porta.1
+led02 var porta.2
+led03 var portc.1
+led04 var portc.2
+led05 var portc.3
+led06 var portc.4
+led07 var portc.5
+led08 var portc.6
+led09 var portb.5
+led10 var portb.6
+led11 var portb.7
+
+led00state var byte
+led01state var byte
+led02state var byte
+led03state var byte
+led04state var byte
+led05state var byte
+led06state var byte
+led07state var byte
+led08state var byte
+led09state var byte
+led10state var byte
+led11state var byte
+
+RandomNumber VAR WORD
+RandomLed VAR BYTE
+Temp var byte
+
+
+DecHours var byte
+BCDHours Var byte
+
+MinTens Var Byte
+MinUnit Var Byte
+DecMinutes Var Byte
+BCDMinutes VAR Byte
+
+NumberToLight VAr byte
+'-------------------------- Clock Variables ---------------------------------
+DS1302_CLK var porta.3 ' DS1302 Clock Pin (Sclk)
+DS1302_DQ var porta.4  ' DS1302 Data Pin  (i/o)
+DS1302_RST var porta.5 ' DS1302 Reset Pin (CE)
+
+'----------------------- Write Commands For DS1302 --------------------------
+writectrl con $8E ' Control byte
+writeram con $80 ' Write to RAM
+writeprotect con $00 ' Write-protect DS1302
+writesec con $80 ' Write seconds
+writemin con $82 ' Write minutes
+writehour con $84 ' Write hour
+writedate con $86 ' Write date
+writemonth con $88 ' Write month
+writeyear con $8C ' Write year
+'------------------------- Read Commands For DS1302 -------------------------
+readsec con $81 ' Read seconds from DS1302
+readmin con $83 ' Read minutes from DS1302
+readhour con $85 ' Read hours from DS1302
+readdate con $87 ' Read date from DS1302
+readyear con $8D ' Read year from DS1302
+readmonth con $89 ' Read month from DS1302
+'------------------------------ Time Variables ------------------------------
+mem var byte ' Temporary data holder
+outbyte var byte ' Second byte to ds1302
+reg_adr var byte ' First byte to DS1302
+'------------------------ Initial Settings For Ports ------------------------
+low DS1302_RST ' Set reset pin low
+low DS1302_CLK ' Set clock pin low
+'----------------------------------------------------------------------------
+adcon1 = 7  'analouge to digital pls!
+'set clock values
+
+'------------ Initialise ---------
+NumberToLight=12
+RandomNumber = 666  ' Random seed - because I'm evil
+Gosub ClearSegments
+GOsub LightSegments 
+
+Powerup:
+temp = 0
+IF PCON.0=0 then goto tellthetime
+
+'-------------------------------------------------------------------------------
+SetHours:
+PCON.0=1
+Gosub ClearSegments
+pause 250
+low Inclight
+pause 250
+Gosub ClearSegments
+pause 250
+low Inclight
+pause 250
+Gosub ClearSegments
+pause 250
+low Inclight
+pause 250
+Gosub ClearSegments
+pause 1000
+
+temp = 1
+DecHours=Temp
+NumberToLight=Temp
+gosub LightSegments              'Start with one light segment
+
+repeat 
+Random randomnumber                          'Wait for ButtonSet release
+until ButtonSet=1
+Pause 250
+
+SetHoursLoop:
+repeat
+Random randomnumber
+until (ButtonInc=0 OR ButtonSet=0)                 'wait for ButtonInc pressed
+
+if ButtonSet=0 then SetMinTens   'Exit Loop if ButtonSet Pressed
+
+temp = temp + 1  'increment Temp if ButtonInc pressed
+if temp=13 then temp=1                    'reset temp to 0 if over 12
+DecHours=Temp
+NumberToLight=Temp
+Gosub ClearSegments
+gosub LightSegments              'light segments
+
+repeat
+until ButtonInc=1                'wait for ButtonInc release
+Pause 100
+
+goto SetHoursLoop
+'-------------------------------------------------------------------------------
+SetMinTens:
+repeat
+until ButtonSet=1  'Wait for ButtonSet release
+Pause 250
+
+Gosub ClearSegments
+temp = 0
+MinTens=Temp
+NumberToLight=Temp
+gosub LightSegments              'Start with TEMP (0) light segment
+
+SetMinTensLoop:
+repeat
+until (ButtonInc=0 OR ButtonSet=0)         'wait for ButtonInc pressed
+
+if ButtonSet=0 then SetMinUnit   'Exit Loop if ButtonSet Pressed
+
+temp = temp + 1  'increment Temp if ButtonInc pressed
+if temp=6 then temp=0         'reset temp to 0 if over 12
+MinTens=Temp
+NumberToLight=Temp
+Gosub ClearSegments
+gosub LightSegments              'light segments
+
+repeat
+until ButtonInc=1     'wait for ButtonInc release
+Pause 100
+
+goto SetMinTensLoop
+'-------------------------------------------------------------------------------
+SetMinUnit:
+repeat
+until ButtonSet=1  'Wait for ButtonSet release
+Pause 250
+
+Gosub ClearSegments
+temp = 0
+MinUnit = Temp
+NumberToLight=Temp
+gosub LightSegments              'Start with TEMP (0) light segment
+
+SetMinUnitLoop:
+repeat
+until (ButtonInc=0 OR ButtonSet=0)                 'wait for ButtonInc pressed
+
+if ButtonSet=0 then SetClock'Exit Loop if ButtonSet Pressed
+
+temp = temp + 1  'increment Temp if ButtonInc pressed
+if temp=10 then temp=0           'reset temp to 0 if over 12
+MinUnit = Temp
+NumberToLight = Temp
+Gosub ClearSegments
+gosub LightSegments              'light segments
+
+repeat
+until ButtonInc=1     'wait for ButtonInc release
+Pause 100
+
+goto SetMinUnitLoop
+'-------------------------------------------------------------------------------
+setclock:
+DecMinutes=(MinTens*10)+MinUnit         'add ten and untis together
+
+BCDMinutes=DecMinutes DIG 1
+BCDMinutes=BCDMinutes<<4                ' convert DEC numbers to BCD format
+BCDMinutes=BCDMinutes+(DecMinutes DIG 0)
+
+
+BCDHours=DecHours DIG 1
+BCDHours=BCDHOurs<<4                   ' convert DEC numbers to BCD format
+BCDHOurs=BCDHOurs+(DecHOurs DIG 0)
+'-------------------------------------------------------------------------------
+reg_adr = writectrl ' Set to control byte
+outbyte = writeprotect ' Set turn off protection
+gosub w_out ' Send both bytes
+reg_adr = writesec ' Set to write seconds register
+outbyte = $00 ' Set to write 00 to seconds register
+gosub w_out
+reg_adr = writemin
+outbyte = BCDMinutes
+gosub w_out
+reg_adr = writehour
+outbyte = BCDHours
+gosub w_out
+reg_adr = writedate
+outbyte = $01
+gosub w_out
+reg_adr = writemonth
+outbyte = $01
+gosub w_out
+reg_adr = writeyear
+outbyte = $00
+gosub w_out
+reg_adr = writectrl
+outbyte = writeprotect
+gosub w_out
+'------------------------------------------------------------------------------- 
+PCON.0=0
+'-------------------------------------------------------------------------------
+TellTheTime:
+temp= 0
+
+reg_adr = readmin ' Read minutes
+gosub w_in
+BCDMinutes = mem
+
+reg_adr = readhour ' Read Hours
+gosub w_in
+BCDHours = mem
+
+MinTens=BCDMinutes & $70           '
+MinTens=MinTens>>4                 'decodes MinTens from BCDMinutes
+Minunit=BCDMinutes & $0F          ' decodes MinUnit from BCDMinutes
+
+DecHours=BCDHours & $70           '
+DecHours=DecHours>>4 
+DecHours=DecHours*10 '
+DecHours=DEcHours + (BCDHours & $0F) '  this one adds in the units
+
+if (DecHours > 12) then 
+  dechours=dechours-12
+endif
+
+if (DecHours = 0) then 
+  dechours=12
+endif
+
+NumberToLight=DECHours
+gosub ClearSegments
+Gosub LightSegments
+Pause 5000
+
+if (((ButtonSet = 0) AND (ButtonInc =1)) OR ((ButtonSet = 1) AND (ButtonInc =0))) then gosub Inctemp
+
+NumberToLight=MinTens
+gosub ClearSegments
+Gosub LightSegments
+Pause 2500
+
+if (((ButtonSet = 0) AND (ButtonInc =1)) OR ((ButtonSet = 1) AND (ButtonInc =0))) then gosub Inctemp
+
+NumberToLight=Minunit
+gosub ClearSegments
+Gosub LightSegments
+Pause 2500
+
+if (((ButtonSet = 0) AND (ButtonInc =1)) OR ((ButtonSet = 1) AND (ButtonInc =0))) then gosub Inctemp
+
+
+
+goto TellTheTime
+'-------------------------------------------------------------------------------
+
+Inctemp:
+Temp=temp+1
+if Temp = 3 then goto sethours
+return
+
+'-------------------------------------------------------------------------------
+'----------------------- Time Commands Subroutines --------------------------
+w_in:
+mem = reg_adr ' Set mem variable to reg_adr contents
+high DS1302_RST ' Activate the DS1302
+shiftout DS1302_DQ,DS1302_CLK,0, [mem] ' Send control byte
+shiftin DS1302_DQ,DS1302_CLK,1, [mem] ' Retrieve data in from the DS1302
+low DS1302_RST ' Deactivate DS1302
+return
+
+w_out:
+mem = reg_adr ' Set mem variable to reg_adr contents
+high DS1302_RST ' Activate the DS1302
+shiftout DS1302_DQ,DS1302_CLK,0, [mem] ' Send control byte
+mem = outbyte ' Set mem variable to outbyte contents
+shiftout DS1302_DQ,DS1302_CLK,0, [mem] ' Send data stored in mem variable to DS1302
+low DS1302_RST ' Deactivate DS1302
+return
+'------------------------------------------------------------------------------
+ClearSegments:
+HIGH led00
+HIGH led01
+HIGH led02
+HIGH led03
+HIGH led04
+HIGH led05
+HIGH led06
+HIGH led07
+HIGH led08
+HIGH led09
+HIGH led10
+HIGH led11
+led00state=0
+led01state=0
+led02state=0
+led03state=0
+led04state=0
+led05state=0
+led06state=0
+led07state=0
+led08state=0
+led09state=0
+led10state=0
+led11state=0
+Return
+'------------------------------------------------------------------------------
+LightSegments:
+If NumberToLight=0 then Return
+Repeat 
+  random RandomNumber  'generates random number
+  RandomLED = (RandomNumber//12)+1    'contains random number between 1 and 12 using MODULUS remainder
+  If (RandomLed=1 and led00state=0) then GOSUB LightLED00
+  If (RandomLed=2 and led01state=0) then GOSUB LightLED01
+  If (RandomLed=3 and led02state=0) then GOSUB LightLED02
+  If (RandomLed=4 and led03state=0) then GOSUB LightLED03
+  If (RandomLed=5 and led04state=0) then GOSUB LightLED04
+  If (RandomLed=6 and led05state=0) then GOSUB LightLED05
+  If (RandomLed=7 and led06state=0) then GOSUB LightLED06
+  If (RandomLed=8 and led07state=0) then GOSUB LightLED07
+  If (RandomLed=9 and led08state=0) then GOSUB LightLED08
+  If (RandomLed=10 and led09state=0) then GOSUB LightLED09
+  If (RandomLed=11 and led10state=0) then GOSUB LightLED10
+  If (RandomLed=12 and led11state=0) then GOSUB LightLED11
+Until NumberToLight=0     'loop unitl NumberToLight=0
+return
+'------------------------------------------------------------------------------
+LightLED00:
+  NumberToLight=NumberToLight-1
+  LOW Led00
+  Led00state=1
+Return
+
+LightLED01:
+  NumberToLight=NumberToLight-1
+  LOW Led01
+  Led01state=1
+Return
+
+LightLED02:
+  NumberToLight=NumberToLight-1
+  LOW Led02
+  Led02state=1
+Return
+
+LightLED03:
+  NumberToLight=NumberToLight-1
+  LOW Led03
+  Led03state=1
+Return
+
+LightLED04:
+  NumberToLight=NumberToLight-1
+  LOW Led04
+  Led04state=1
+Return
+
+LightLED05:
+  NumberToLight=NumberToLight-1
+  LOW Led05
+  Led05state=1
+Return
+
+LightLED06:
+  NumberToLight=NumberToLight-1
+  LOW Led06
+  Led06state=1
+Return
+
+LightLED07:
+  NumberToLight=NumberToLight-1
+  LOW Led07
+  Led07state=1
+Return
+
+LightLED08:
+  NumberToLight=NumberToLight-1
+  LOW Led08
+  Led08state=1
+Return
+
+LightLED09:
+  NumberToLight=NumberToLight-1
+  LOW Led09
+  Led09state=1
+Return
+
+LightLED10:
+  NumberToLight=NumberToLight-1
+  LOW Led10
+  Led10state=1
+Return
+
+LightLED11:
+  NumberToLight=NumberToLight-1
+  LOW Led11
+  Led11state=1
+Return
+'------------------------------------------------------------------------------
+
+
+'-------------------------------------------------------------------------------
+DemoMode:
+DecHours=3
+MinTens=1
+MinUnit=5
+goto setclock
+
+
+
+
+end

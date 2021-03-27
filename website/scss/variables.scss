@@ -13,26 +13,26 @@ $colorBackground: $background;
 
 $fontColor: black;
 $fontSizeTimeLabel: 17px;
-$fontSizeHeader:24px;
+$fontSizeHeader: 24px;
 $fontSizeDescription: 16px;
 
 $timeFrameWidth: 770px;
 $timeFrameHeight: 550px;
 
 $colorNavBackground: white;
-$colorHello: #EEE;
+$colorHello: #eee;
 
 $navPaddingTouchTB: 5px;
 $navPaddingTouchLR: 5px;
 
-$navFadeOutSpeed: .3s;
-$navFadeInSpeed: .1s;
+$navFadeOutSpeed: 0.3s;
+$navFadeInSpeed: 0.1s;
 
 $navIconWidth: 35px;
 $navIconHeight: 29px;
 $navIconWidthSmall: 28px;
 $navIconHeightSmall: 23px;
-$navIconPadding: 15px;
+$navIconPadding: 5px;
 
 $navIconCircle: 39px;
 $navIconCircleSmall: 29px;
@@ -42,7 +42,6 @@ $navPaddingLR: 5px;
 
 $fontSizeNavSmall: 17px;
 $fontSizeNav: 25px;
-
 
 $contentPaddingSide: 20px;
 
@@ -56,7 +55,7 @@ $fontScreenReference: 73vh;
 $fontSize: ($fontScreenReference/45);
 $fontWeight: 300;
 $fontSizeNormal: 1em;
-$fontSizeSmall: .9em;
+$fontSizeSmall: 0.9em;
 $fontSizeNavSmall: 17px;
 $fontSizeNav: 25px;
 
